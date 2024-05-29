@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notify Me</title>
+    <meta name="description" content="Stay in the loop" />
+    <meta name="keywords" content="notify, email, waitlist" />
+  </head>
+  <body>
+    <h1>Stay in the Loop</h1>
+    <p>Sign up to get notified when we're ready to launch.</p>
+    <form name="waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="waitlist">
+      <input type="email" name="email" placeholder="Enter your email" required>
+      <button type="submit">Notify me</button>
+    </form>
+    <script>
+        document.querySelector("form[name='waitlist']").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const form = event.target;
+          const formData = new FormData(form);
+  
+          try {
+            await fetch("/", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams(formData).toString()
+            });
+            alert("You're on the waitlist! 🎉");
+            form.reset();
+          } catch (error) {
+            alert("There was an error submitting the form. Please try again.");
+          }
+        });
+    </script>
+  </body>
+</html>
+
